@@ -1,4 +1,4 @@
-const CACHE = 'our-basket-phone-v3';
+const CACHE = 'our-basket-phone-v4';
 const ROOT = self.registration.scope;
 self.addEventListener('install', event => {
   event.waitUntil((async () => {
