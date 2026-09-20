@@ -1,4 +1,4 @@
-const CACHE = 'our-basket-phone-v4';
+const CACHE = 'our-basket-phone-v5';
 const ROOT = self.registration.scope;
 self.addEventListener('install', event => {
   event.waitUntil((async () => {
@@ -25,3 +25,4 @@ self.addEventListener('fetch', event => {
   }
   event.respondWith(caches.match(request).then(hit => hit || fetch(request)));
 });
+
