@@ -1,4 +1,4 @@
-const CACHE = 'our-basket-phone-v11';
+const CACHE = 'our-basket-phone-v12';
 const ROOT = self.registration.scope;
 self.addEventListener('install', event => {
   event.waitUntil((async () => {
@@ -20,7 +20,20 @@ self.addEventListener('fetch', event => {
   const request = event.request;
   if (request.method !== 'GET' || new URL(request.url).origin !== self.location.origin) return;
   if (request.mode === 'navigate') {
-    event.respondWith(fetch(request).catch(async () => (await caches.open(CACHE)).match(ROOT) || Response.error()));
+    event.respondWith((async () => {
+      const cache = await caches.open(CACHE);
+      const saved = await cache.match(ROOT);
+      if (!saved) return fetch(request);
+      event.waitUntil(fetch(request).then(async response => {
+        if (!response.ok) return;
+        const html = await response.clone().text();
+        if (html === await saved.clone().text()) return;
+        const assets = [...html.matchAll(/(?:src|href)="([^"]*\/assets\/[^"]+)"/g)].map(match => new URL(match[1], ROOT));
+        await cache.addAll(assets);
+        await cache.put(ROOT, response);
+      }).catch(() => {}));
+      return saved;
+    })());
     return;
   }
   event.respondWith(caches.match(request).then(hit => hit || fetch(request)));
