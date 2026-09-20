@@ -1,12 +1,12 @@
 {
-  "name": "Our basket — royal flush edition",
+  "name": "Our basket",
   "short_name": "Basket",
-  "description": "A fast shopping list saved on this phone.",
+  "description": "A shared shopping list and pantry for our household.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#f5e7d5",
-  "theme_color": "#5b3425",
+  "background_color": "#f5f7f6",
+  "theme_color": "#1c6a59",
   "icons": [
     { "src": "./icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
   ]
